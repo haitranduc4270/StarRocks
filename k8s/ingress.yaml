@@ -1,0 +1,66 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: starrocks
+
+spec:
+  rules:
+    - host: grafana.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana
+                port:
+                  number: 80
+
+    # - host: minio.local
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: minio
+    #             port:
+    #               number: 9001
+
+    # - host: starrocks.local
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
+    #         backend:
+    #           service:
+    #             name: starrockscluster-sample-fe-service
+    #             port:
+    #               number: 8030
+
+
+    - host: starrocks.local  # Tên miền bạn muốn sử dụng để truy cập
+      http:
+        paths:
+          - path: /  # Đường dẫn mà bạn muốn ánh xạ đến service
+            pathType: Prefix
+            backend:
+              service:
+                name: starrockscluster-sample-fe-service
+                port:
+                  number: 8030  # Chọn một trong các cổng của service
+
+
+    - host: helloo-world.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-world
+                port:
+                  number: 80

@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: starrocks
+
+resources:
+  - namespace.yaml
+  # - minio/deployment.yaml
+  # - minio/service.yaml
+  # - redpanda/statefulset.yaml
+  # - redpanda/service.yaml
+  # - starrocks/fe-deployment.yaml
+  # - starrocks/cn-deployment.yaml
+  # - starrocks/operator.yaml
+  - starrocks/starrocks-fe-and-be.yaml
+  # - starrocks/service.yaml
+
+  - grafana/deployment.yaml
+  - grafana/service.yaml
+  
+  - helloworld/hello-world-deployment.yaml
+  - helloworld/hello-world-service.yaml
+  - ingress.yaml
+

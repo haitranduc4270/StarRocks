@@ -1,0 +1,38 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: starrocks-fe
+#   namespace: starrock
+# spec:
+#   selector:
+#     app: starrocks-fe
+#   ports:
+#     - protocol: TCP
+#       port: 8030
+#       name: web
+#       targetPort: 8030
+#     - protocol: TCP
+#       port: 9030
+#       name: mysql
+#       targetPort: 9030
+#   type: NodePort
+  
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: starrocks-cn
+#   namespace: starrock
+# spec:
+#   selector:
+#     app: starrocks-cn 
+#   ports:
+#     - protocol: TCP
+#       port: 9050 
+#       targetPort: 9050
+#       name: rpc-port
+#     - protocol: TCP
+#       port: 8040
+#       targetPort: 8040 
+#       name: http-port
+#   type: ClusterIP

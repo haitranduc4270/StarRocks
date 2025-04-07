@@ -1,0 +1,71 @@
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redpanda
+spec:
+  serviceName: "redpanda"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redpanda
+  template:
+    metadata:
+      labels:
+        app: redpanda
+    spec:
+      containers:
+        - name: redpanda
+          image: redpandadata/redpanda:latest
+          command:
+            - redpanda
+            - start
+            - --smp 1
+            - --memory 1G
+            - --kafka-addr internal://0.0.0.0:29092,external://0.0.0.0:9092
+            - --advertise-kafka-addr internal://redpanda:29092,external://172.23.91.32:30092
+
+          ports:
+            - containerPort: 9092
+            - containerPort: 29092
+          readinessProbe:
+            httpGet:
+              path: /v1/status/ready
+              port: 9644
+            initialDelaySeconds: 5
+            periodSeconds: 3
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redpanda-console
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redpanda-console
+  template:
+    metadata:
+      labels:
+        app: redpanda-console
+    spec:
+      containers:
+        - name: console
+          image: redpandadata/console:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - echo "$CONSOLE_CONFIG_FILE" > /tmp/config.yml; /app/console
+          env:
+            - name: CONFIG_FILEPATH
+              value: /tmp/config.yml
+            - name: CONSOLE_CONFIG_FILE
+              value: |
+                kafka:
+                  brokers: ["redpanda:29092"]
+                redpanda:
+                  adminApi:
+                    enabled: true
+                    urls: ["http://redpanda:9644"]
+          ports:
+            - containerPort: 8080
