@@ -1,5 +1,3 @@
-# This manifest deploys a StarRocks cluster with 3 FEs, 3 BEs.
-
 apiVersion: starrocks.com/v1
 kind: StarRocksCluster
 metadata:
@@ -11,12 +9,9 @@ spec:
     replicas: 1
     storageVolumes:
     - name: fe-meta
-      # storageClassName: ""  # If storageClassName is not set, Kubernetes will use the default storage class.
-      # fe container stop running if the disk free space which the fe meta directory residents, is less than 5Gi.
       storageSize: 10Gi
       mountPath: /opt/starrocks/fe/meta
     - name: fe-log
-      # storageClassName: ""  # If storageClassName is not set, Kubernetes will use the default storage class.
       storageSize: 5Gi
       mountPath: /opt/starrocks/fe/log
   starRocksBeSpec:
@@ -24,10 +19,8 @@ spec:
     replicas: 1
     storageVolumes:
     - name: be-data
-      # storageClassName: ""  # If storageClassName is not set, Kubernetes will use the default storage class.
       storageSize: 1Ti
       mountPath: /opt/starrocks/be/storage
     - name: be-log
-      # storageClassName: ""  # If storageClassName is not set, Kubernetes will use the default storage class.
       storageSize: 1Gi
       mountPath: /opt/starrocks/be/log

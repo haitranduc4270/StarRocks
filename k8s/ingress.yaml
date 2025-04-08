@@ -19,48 +19,13 @@ spec:
                 port:
                   number: 80
 
-    # - host: minio.local
-    #   http:
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    #         backend:
-    #           service:
-    #             name: minio
-    #             port:
-    #               number: 9001
-
-    # - host: starrocks.local
-    #   http:
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    #         backend:
-    #           service:
-    #             name: starrockscluster-sample-fe-service
-    #             port:
-    #               number: 8030
-
-
-    - host: starrocks.local  # Tên miền bạn muốn sử dụng để truy cập
-      http:
-        paths:
-          - path: /  # Đường dẫn mà bạn muốn ánh xạ đến service
-            pathType: Prefix
-            backend:
-              service:
-                name: starrockscluster-sample-fe-service
-                port:
-                  number: 8030  # Chọn một trong các cổng của service
-
-
-    - host: helloo-world.local
+    - host: starrocks.local
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: hello-world
+                name: starrockscluster-sample-fe-service
                 port:
-                  number: 80
+                  number: 8030
